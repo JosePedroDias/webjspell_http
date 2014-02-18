@@ -1,0 +1,17 @@
+{
+  "name": "webjspell_http",
+  "version": "0.1.0",
+  "description": "webscraps the awesome webjspell service from natura.di.uminho.pt",
+  "main": "index.js",
+  "dependencies": {
+    "jsdom":   ">= 0.10.1",
+    "request": ">= 2.33.0"
+  },
+  "author": {
+    "name": "José Pedro Dias",
+    "email": "jose.pedro.dias@gmail.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
