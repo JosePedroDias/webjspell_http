@@ -18,6 +18,13 @@ var stripLi = function(liEl) {
     ];
 };
 
+var ellipsis = function(t, max, suffix) {
+    suffix = suffix || '...';
+    if (t.length <= max) {
+        return t;
+    }
+    return t.substring(0, max-suffix.length) + suffix;
+};
 
 
 var webjspell_http = function(phrase, cb) {
@@ -42,11 +49,12 @@ var webjspell_http = function(phrase, cb) {
                 palavraEls = Array.prototype.slice.call(palavraEls);
                 palavraEls.forEach(function(palavraEl, wordIndex) {
                     var word = words[wordIndex];
-                    var bag = {};
+                    var bag = [];
                     var lemaEls = palavraEl.querySelectorAll('.lema');
                     lemaEls = Array.prototype.slice.call(lemaEls);
                     lemaEls.forEach(function(lemaEl) {
                         var liEls;
+                        var lemaBag = {};
 
                         var morfEl = lemaEl.querySelector('.morfInfo');
                         if (morfEl) {
@@ -57,7 +65,7 @@ var webjspell_http = function(phrase, cb) {
                                 var p = stripLi(liEl);
                                 mBag[p[0]] = p[1];
                             });
-                            bag.morf = mBag;
+                            lemaBag.morf = mBag;
                         }
 
                         var sinEl = lemaEl.querySelector('.sinInfo');
@@ -65,7 +73,7 @@ var webjspell_http = function(phrase, cb) {
                             var liEl = sinEl.querySelector('li');
                             if (liEl) {
                                 var p = stripLi(liEl);
-                                bag.sin = p[1].split(' ; ');
+                                lemaBag.sin = p[1].split(' ; ');
                             }
                         }
 
@@ -77,14 +85,17 @@ var webjspell_http = function(phrase, cb) {
                             liEls.forEach(function(liEl) {
                                 liEl.removeChild( liEl.firstChild );
                                 var t = strip(liEl.innerHTML);
-                                //if (t.length > 80) { t = t.substring(0, 80-3) + '...'; }
+                                //t = ellipsis(t, 50);
                                 dBag.push(t);
                             });
                             if (dBag.length > 0) {
-                                bag.def = dBag;
+                                lemaBag.def = dBag;
                             }
                         }
+
+                        bag.push(lemaBag);
                     });
+
                     o[word] = bag;
                 });
 
