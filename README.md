@@ -16,7 +16,7 @@ Possible details are:
 
 ```javascript
 var webjspell_http = request('webjspell_http');
-webjspell_http('talvez faça falta', function(err, o) {
+webjspell_http('um grande passo para a humanidade', function(err, o) {
     console.log(err, o);
 });
 ```
